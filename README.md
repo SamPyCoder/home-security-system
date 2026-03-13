@@ -39,4 +39,18 @@ Assistant Professor
 Department of BCA  
 GEMS Arts and Science College  
 
+## Screenshots
+
+### Login Page
+![Login Page](login-page.jpeg)
+
+### Admin Module
+![Admin Module](admin-module.jpeg)
+
+### Police Module
+![Police Module](police-module.jpeg)
+
+### User App
+![User App](user-app.jpeg)
+
 
