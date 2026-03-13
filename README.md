@@ -34,9 +34,9 @@ University of Calicut
 - Fathima Shahala K
 
 ## Project Guide
-Jithusha K 
-Assistant Professor
-Department of BCA
-GEMS Arts and Science College
+Jithusha K   
+Assistant Professor  
+Department of BCA  
+GEMS Arts and Science College  
 
 
