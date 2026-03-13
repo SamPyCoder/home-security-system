@@ -1,0 +1,51 @@
+{% extends 'Admin/1admin_home.html' %}
+{% block body %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Users</title>
+    <!-- Add Bootstrap CSS Link -->
+{#    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">#}
+</head>
+<body class="bg-light">
+
+    <div class="container mt-4">
+        <h2 class="text-center mb-4">View Users</h2>
+
+        <div class="row">
+            {% for i in data %}
+<div class="col-md-4 mb-4">
+    <div class="card shadow-sm">
+        <img src="{{ i.image.url }}" class="card-img-top" alt="User Image" style="height: 250px; object-fit: cover;">
+        <div class="card-body">
+            <h5 class="card-title text-primary">{{ i.name }}</h5>
+            <p class="card-text">
+                <strong>E-Mail:</strong> {{ i.email }}<br>
+                <strong>Phone:</strong> {{ i.phone }}<br>
+                <strong>Address:</strong><br>
+                {{ i.place }}, {{ i.post }}, {{ i.pin }}
+            </p>
+
+            <div class="d-grid">
+                <a href="/myapp/admin_delete_user/{{ i.id }}"
+                   class="btn btn-outline-danger btn-sm"
+                   onclick="return confirm('Are you sure you want to delete this user?')">
+                   Delete User
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+        </div>
+    </div>
+
+    <!-- Add Bootstrap JS and Popper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+
+</body>
+</html>
+{% endblock %}

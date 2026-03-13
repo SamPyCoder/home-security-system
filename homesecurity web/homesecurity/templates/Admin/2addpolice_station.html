@@ -1,0 +1,137 @@
+{% extends 'Admin/1admin_home.html' %}
+{% block body %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Police Station</title>
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        #map { height: 400px; width: 100%; margin-top: 10px; }
+        table { width: 50%; margin: 20px auto; }
+        td { padding: 5px; }
+        input[type="text"], input[type="email"], input[type="tel"], input[type="password"] {
+            width: 100%; padding: 5px;
+        }
+        input[type="submit"] { padding: 10px 20px; }
+    </style>
+</head>
+<body>
+<form method="post" action="/myapp/admin_add_policestation_post">{% csrf_token %}
+
+    <div class="container mt-4">
+    {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    {% endfor %}
+</div>
+    <table border="0" cellpadding="5">
+      <tr>
+        <td>Name</td>
+        <td><input type="text" name="name" pattern="[a-z A-Z]+" required></td>
+      </tr>
+      <tr>
+        <td>Email</td>
+        <td><input type="email" name="email" required></td>
+      </tr>
+      <tr>
+        <td>Phone</td>
+        <td><input type="text" pattern="[6789][0-9]{9}" name="phone" required></td>
+      </tr>
+      <tr>
+        <td>Place</td>
+        <td><input type="text" name="place" pattern="[a-z A-Z]+" id="place" required></td>
+      </tr>
+      <tr>
+        <td>Post</td>
+        <td><input type="text" pattern="[a-z A-Z]+" name="post" required></td>
+      </tr>
+      <tr>
+        <td>Pin</td>
+        <td><input type="text" pattern="[0-9]{6}" name="pin" required></td>
+      </tr>
+      <tr>
+        <td>Latitude</td>
+        <td><input type="text" name="latitude" id="latitude" required readonly></td>
+      </tr>
+      <tr>
+        <td>Longitude</td>
+        <td><input type="text" name="longitude" id="longitude" required readonly></td>
+      </tr>
+      <tr>
+        <td>Username</td>
+        <td><input type="text" name="username" minlength="6" required></td>
+      </tr>
+      <tr>
+        <td>Password</td>
+        <td><input type="password" minlength="8" name="password" required></td>
+      </tr>
+      <tr>
+        <td colspan="2">
+            <div id="map"></div>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2" align="center">
+          <input type="submit" value="ADD">
+        </td>
+      </tr>
+    </table>
+</form>
+
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+    // Initialize the map
+    var map = L.map('map').setView([51.505, -0.09], 13); // Default view (London)
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    var marker;
+
+    // Function to update map and coordinates
+    function updateMap(lat, lng, place) {
+        map.setView([lat, lng], 13);
+        if (marker) {
+            map.removeLayer(marker);
+        }
+        marker = L.marker([lat, lng]).addTo(map)
+            .bindPopup(place).openPopup();
+        document.getElementById('latitude').value = lat.toFixed(6);
+        document.getElementById('longitude').value = lng.toFixed(6);
+    }
+
+    // Event listener for place input
+    document.getElementById('place').addEventListener('change', function() {
+        var place = this.value;
+        if (place.trim() === '') return;
+
+        // Fetch coordinates from Nominatim API
+        fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(place)}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.length > 0) {
+                    var lat = parseFloat(data[0].lat);
+                    var lng = parseFloat(data[0].lon);
+                    updateMap(lat, lng, place);
+                } else {
+                    alert('Place not found. Please try a different location.');
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching coordinates:', error);
+                alert('Error fetching coordinates. Please try again.');
+            });
+    });
+
+    // Set default coordinates (optional, can be removed if not needed)
+    updateMap(51.505, -0.09, 'Default Location');
+</script>
+</body>
+</html>
+
+{% endblock %}

@@ -1,0 +1,55 @@
+{% extends 'police/8policestation_home.html' %}
+{% block body %}
+
+<div class="container mt-5">
+    <div class="card shadow">
+        <div class="card-header bg-primary text-white">
+            <h4 class="mb-0">Visitor Complaints</h4>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover align-middle text-center">
+                    <thead class="table-secondary">
+                        <tr>
+                            <th>SI No</th>
+                            <th>User</th>
+                            <th>Description</th>
+                            <th>Date</th>
+                            <th>Captured Image</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for i in data %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ i.VISITORS_LOG.CAMERA.USER.name }}</td>
+                            <td>{{ i.description }}</td>
+                            <td>{{ i.date }}</td>
+                            <td>
+                                {% if i.VISITORS_LOG.image %}
+                                    <img src="{{ i.VISITORS_LOG.image.url }}" alt="Captured Image" width="100" height="100" class="img-thumbnail">
+                                {% else %}
+                                    No Image
+                                {% endif %}
+                            </td>
+                            <td>
+
+{#                                <a href="/myapp/response/{{ i.id }}" class="btn btn-sm btn-success mb-1">Respond</a><br>#}
+                               {% if i.response == "pending" %}  <a href="/myapp/response/{{ i.id }}" class="btn btn-sm btn-danger">Respond</a>{% else %}<p>{{ i.response }}</p>{% endif %}<br>
+                               {% if i.action == "pending" %}  <a href="/myapp/take_action/{{ i.id }}" class="btn btn-sm btn-danger">Take Action</a>{% else %}<p>{{ i.action }}</p>{% endif %}
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="6">No data available.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

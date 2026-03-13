@@ -1,0 +1,2 @@
+C:/Users/Aleena/Downloads/template login/home_security app/home_security/android/app/.cxx/Debug/494c613w/x86_64/CMakeFiles/edit_cache.dir
+C:/Users/Aleena/Downloads/template login/home_security app/home_security/android/app/.cxx/Debug/494c613w/x86_64/CMakeFiles/rebuild_cache.dir

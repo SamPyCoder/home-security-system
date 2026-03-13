@@ -1,0 +1,38 @@
+
+{% extends 'police/8policestation_home.html' %}
+{% block body %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+<form>
+    <table CLASS="table table-bordered">
+        <tr>
+            <th>SI No</th>
+            <th>User</th>
+            <th>Contact</th>
+            <th>Complaint</th>
+            <th>Date</th>
+            <th>Reply</th>
+        </tr>
+        {% for i in data %}
+        <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ i.USER.name }}</td>
+            <td>{{ i.USER.phone }}<br>
+            <td>{{ i.complaint }}</td>
+            <td>{{ i.date}}</td>
+            {% if i.reply == "pending" %}
+            <td><a href="/myapp/reply/{{ i.id }}">reply</a></td>
+        {% else %}
+        <td>{{ i.reply }}</td>
+        {% endif %}
+        </tr>
+        {% endfor %}
+</table>
+</form>
+</body>
+</html>
+{% endblock %}
