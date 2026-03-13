@@ -35,3 +35,6 @@ University of Calicut
 
 ## Project Guide
 Jithusha K 
+Assistant Professor
+Department of BCA
+GEMS Arts and Science College
